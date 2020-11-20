@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from tasks.models import Task
 from django.core.serializers import serialize
 from rest_framework.parsers import JSONParser
-from tasks.serializer import TaskSerializer
+
 
 
 # Create your views here.
@@ -24,4 +24,6 @@ def get_task(request, id_):
         return JsonResponse(model_to_dict(Task.objects.get(pk=id_)), safe=False)
     except Task.DoesNotExist:
         raise HttpResponse(status=404)
+
+
 
