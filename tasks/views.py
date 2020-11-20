@@ -41,12 +41,12 @@ def create_task(request):
 def update_task(request, pk):
 
 	try:
-        task = Task.objects.get(pk=pk)
-    except Task.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+		task = Task.objects.get(pk=pk)
+	except Task.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
 
 	serializer = TaskSerializer(task, data=request.data)
-    if serializer.is_valid():
+	if serializer.is_valid():
 		serializer.save()
 		return Response(serializer.data)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -56,18 +56,18 @@ def update_task(request, pk):
 @api_view(["DELETE"])
 def delete_task(request, pk):
 	try:
-        task = Task.objects.get(pk=pk)
-        task.delete()
-        return HttpResponse("Task deleted", content_type="application/json")
-    except Task.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+		task = Task.objects.get(pk=pk)
+		task.delete()
+		return HttpResponse("Task deleted", content_type="application/json")
+	except Task.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(["DELETE"])
 def delete_all(request, pk):
 	try:
-        task = Task.objects.get(pk=pk)
-        task.delete()
-        return HttpResponse("Task deleted", content_type="application/json")
-    except Task.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+		task = Task.objects.get(pk=pk)
+		task.delete()
+		return HttpResponse("Task deleted", content_type="application/json")
+	except Task.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
