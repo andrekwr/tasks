@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from tasks.models import Task
-from django.core.serializers import serialize
+from django.core import serializers
 from rest_framework.parsers import JSONParser
 from tasks.serializer import TaskSerializer
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from django.forms.models import model_to_dict
 
 
 
@@ -21,9 +24,9 @@ def get_tasks(request):
 
 
 @api_view(["GET"])
-def get_task(request, id_):
+def get_task(request, pk):
     try:
-        return JsonResponse(model_to_dict(Task.objects.get(pk=id_)), safe=False)
+        return JsonResponse(model_to_dict(Task.objects.get(pk=pk)), safe=False)
     except Task.DoesNotExist:
         raise HttpResponse(status=404)
 
@@ -64,10 +67,10 @@ def delete_task(request, pk):
 
 
 @api_view(["DELETE"])
-def delete_all(request, pk):
+def delete_all(request):
 	try:
-		task = Task.objects.get(pk=pk)
-		task.delete()
-		return HttpResponse("Task deleted", content_type="application/json")
+		tasks = Task.objects.all()
+		tasks.delete()
+		return HttpResponse("Tasks deleted", content_type="application/json")
 	except Task.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
