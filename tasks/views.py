@@ -18,12 +18,14 @@ def index(request):
     return HttpResponse("Hello, world. You're at the tasks index.")
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_tasks(request):
     tasks = serializers.serialize("json", Task.objects.all())
     return HttpResponse(tasks, content_type="application/json")
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_task(request, pk):
     try:
         return JsonResponse(model_to_dict(Task.objects.get(pk=pk)), safe=False)
@@ -32,6 +34,7 @@ def get_task(request, pk):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def create_task(request):
 	serializer = TaskSerializer(data=request.data)
 	if serializer.is_valid():
@@ -41,6 +44,7 @@ def create_task(request):
 
 
 @api_view(["PUT"])
+@permission_classes([IsAuthenticated])
 def update_task(request, pk):
 
 	try:
@@ -57,6 +61,7 @@ def update_task(request, pk):
 
 
 @api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
 def delete_task(request, pk):
 	try:
 		task = Task.objects.get(pk=pk)
@@ -67,6 +72,7 @@ def delete_task(request, pk):
 
 
 @api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
 def delete_all(request):
 	try:
 		tasks = Task.objects.all()
