@@ -2,3 +2,6 @@ django
 psycopg2
 djangorestframework
 djangorestframework_simplejwt
+djangorestframework-jwt
+django-rest-auth 
+django-allauth
